@@ -1,16 +1,20 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { User } from "../entity/User"
+import 'dotenv/config';
 
 export const AppDataSource = new DataSource({
     type: "mssql",
-    host: "localhost",
-    username: "sa",
-    password: "Admin12345",
-    database: "tempdb",
+    host: process.env.DB_HOST,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: [User],
+    entities: ['../migrations/*.ts', '../migrations/**.ts'],
     migrations: [],
     subscribers: [],
+    options: {
+        trustServerCertificate: true,
+        encrypt: true
+    }
 })
